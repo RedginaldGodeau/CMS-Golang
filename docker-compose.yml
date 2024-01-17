@@ -1,0 +1,50 @@
+services:
+  command:
+    container_name: cmd_cms
+    build:
+      context: docker/cmd
+    networks: [net]
+    ports:
+      - 8085:8080
+    tty: true
+    volumes:
+      - ./:/var/www/application
+    working_dir: /var/www/application
+    env_file:
+      - .env
+  runner:
+    container_name: runner_cms
+    image: alpine
+    networks: [ net ]
+    ports:
+      - 8080:8080
+    volumes:
+      - ./:/var/www/application
+    working_dir: /var/www/application
+    env_file:
+      - .env
+    command: bin/build/app
+
+  mailcatcher:
+    restart: on-failure
+    image: dockage/mailcatcher:latest
+    networks: [net]
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
+  database:
+    container_name: database_cms
+    image: postgres:15
+    networks: [net]
+    ports:
+      - 5432:5432
+      - 5433:5432
+    environment:
+      POSTGRES_USER: akinguser
+      POSTGRES_PASSWORD: mypassforking
+      POSTGRES_DB: cms_database
+
+networks:
+  net:
+    driver: bridge
