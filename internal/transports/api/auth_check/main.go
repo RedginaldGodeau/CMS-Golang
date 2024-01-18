@@ -1,4 +1,4 @@
-package auth
+package auth_check
 
 import (
 	"cms/internal/models/auth"
@@ -23,6 +23,4 @@ var Auth gin.HandlerFunc = func(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Le mot de passe ne correspond pas"})
 		return
 	}
-
-	token.GenerateToken
 }
