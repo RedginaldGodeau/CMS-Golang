@@ -8,6 +8,6 @@ func InitConfig() error {
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("./config")
-	
+
 	return viper.ReadInConfig()
 }

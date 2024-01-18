@@ -1,6 +1,7 @@
 package api
 
 import (
+	"cms/internal/transports/api/auth"
 	"cms/internal/transports/api/homepage"
 	"cms/internal/transports/api/mail/contactform"
 	"github.com/gin-gonic/gin"
@@ -15,4 +16,6 @@ func Init(r *gin.RouterGroup) {
 	r.DELETE("/homepage", homepage.Delete)
 
 	r.POST("/mail/contact", contactform.Post)
+
+	r.GET("/auth", auth.Auth)
 }
