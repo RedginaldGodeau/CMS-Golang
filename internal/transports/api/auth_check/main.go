@@ -1,4 +1,4 @@
-package auth
+package auth_check
 
 import (
 	"cms/internal/models/auth"
@@ -11,6 +11,16 @@ var Auth gin.HandlerFunc = func(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	rightPass, err := input.CheckUser()
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if !rightPass {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Le mot de passe ne correspond pas"})
 		return
 	}
 }
